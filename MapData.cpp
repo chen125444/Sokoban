@@ -60,12 +60,12 @@ MapData::MapData()
     int step2=100;
     for(int i=0; i<15; i++)
     {
-        QVector<int> vec1;
+        QVector<int> vec;
         for(int j=0; j<15; j++)
         {
-            vec1.push_back(arr2[i][j]);
+            vec.push_back(arr2[i][j]);
         }
-        map.push_back(vec1);
+        map.push_back(vec);
     }
     mData.insert(2,map);  
     stepData.insert(2,step2);
@@ -93,12 +93,12 @@ MapData::MapData()
     int step3=31;
     for(int i=0; i<15; i++)
     {
-        QVector<int> vec1;
+        QVector<int> vec;
         for(int j=0; j<15; j++)
         {
-            vec1.push_back(arr3[i][j]);
+            vec.push_back(arr3[i][j]);
         }
-        map.push_back(vec1);
+        map.push_back(vec);
     }
     mData.insert(3,map);
     stepData.insert(3,step3);
@@ -126,12 +126,12 @@ MapData::MapData()
     int step4=60;
     for(int i=0; i<15; i++)
     {
-        QVector<int> vec1;
+        QVector<int> vec;
         for(int j=0; j<15; j++)
         {
-            vec1.push_back(arr4[i][j]);
+            vec.push_back(arr4[i][j]);
         }
-        map.push_back(vec1);
+        map.push_back(vec);
     }
     mData.insert(4,map);
     stepData.insert(4,step4);

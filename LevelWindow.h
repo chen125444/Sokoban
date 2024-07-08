@@ -45,9 +45,9 @@ public:
     bool isLevel4Unlock=false;
 
     //保存游戏记录
-    void saveLevelUnlockData(bool isLevel2Unlock, bool isLevel3Unlock, bool isLevel4Unlock, const QString& filename);
+    void SaveLevelUnlockData(bool isLevel2Unlock, bool isLevel3Unlock, bool isLevel4Unlock, const QString& filename);
     //加载记录
-    void loadLevelUnlockData(bool& isLevel2Unlock, bool& isLevel3Unlock, bool& isLevel4Unlock, const QString& filename);
+    void LoadLevelUnlockData(bool& isLevel2Unlock, bool& isLevel3Unlock, bool& isLevel4Unlock, const QString& filename);
 signals:
     //返回信号
     void BackSignal();

@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QPushButton>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QFile>
 #include <QTest>
 #include <QDateTime>
 #include <QLabel>
@@ -29,10 +32,11 @@ public:
     //重写键盘事件
     void keyPressEvent(QKeyEvent *event);
 
+    //游戏胜利后保存 时间 步数数据
+    void SaveWinData();
     //关卡数
-    int leverIndex;
-    //可用步数
-    int totalStep;
+    int levelIndex;
+
     //记录是否胜利
     bool isWin=false;
 

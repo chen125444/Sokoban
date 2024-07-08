@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    AchieveWindow.cpp \
     GameLoad.cpp \
     GameScene.cpp \
     LevelWindow.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
+    AchieveWindow.h \
     Config.h \
     GameLoad.h \
     GameScene.h \
@@ -34,7 +36,8 @@ HEADERS += \
     MapData.h \
     MyPushButton.h
 
-FORMS +=
+FORMS += \
+    AchieveWindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

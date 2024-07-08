@@ -39,7 +39,7 @@ public:
 
     //创建计时器
     QTimer * timer;//用于更新时间
-    QTimer * stepTimer;//用于更新步数
+    QTimer * updateTimer;//用于更新步数 时间
 
     int timeCount=0;//记录已过秒数
     bool isTimerStop=false;//记录是否暂停
@@ -58,6 +58,7 @@ public:
     //当前关卡数
     int levelIndex;
     //关卡可用步数
+    int totalStep;
     int stepRemain;
 
     //人的坐标

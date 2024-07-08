@@ -37,5 +37,8 @@
         <file>images/wBtn.png</file>
         <file>images/sBtn.png</file>
         <file>images/dBtn.png</file>
+        <file>images/returnBtn.png</file>
+        <file>images/delete.png</file>
+        <file>images/deleteBtn.png</file>
     </qresource>
 </RCC>

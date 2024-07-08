@@ -29,7 +29,7 @@ MainMenu::MainMenu(QWidget *parent)
         {
             this->hide();//隐藏主菜单界面
             levelWindow->show(); //显示选关界面
-            levelWindow->loadLevelUnlockData(levelWindow->isLevel2Unlock,levelWindow->isLevel3Unlock,levelWindow->isLevel4Unlock,"GameDataRecord.json");
+            levelWindow->LoadLevelUnlockData(levelWindow->isLevel2Unlock,levelWindow->isLevel3Unlock,levelWindow->isLevel4Unlock,"GameDataRecord.json");
         });
     });
 
@@ -56,10 +56,14 @@ MainMenu::MainMenu(QWidget *parent)
         });
     });
 
+
     //创建成就按钮
     MyPushButton * achieveBtn=new MyPushButton(":/myimages/images/achievement.png");
     achieveBtn->setParent(this);
     achieveBtn->move(this->width()-achieveBtn->width()-10,this->height()-achieveBtn->height()-10);
+
+    //创建成就界面
+    achieveWindow = new AchieveWindow;
 
     //点击成就按钮后跳转
     connect(achieveBtn,&MyPushButton::clicked,[=]
@@ -67,27 +71,19 @@ MainMenu::MainMenu(QWidget *parent)
         //延时
         QTimer::singleShot(300,this,[=]
         {
-            //重置存储的记录
-            QString filename = "GameDataRecord.json";
-            QFile file(filename);
-            if (file.open(QIODevice::ReadWrite))
-            {
-                QByteArray jsonData = file.readAll();
-                QJsonDocument doc = QJsonDocument::fromJson(jsonData);
-                QJsonObject levelUnlockObject = doc.object();
-
-                levelUnlockObject["isLevel2Unlock"] = false;
-                levelUnlockObject["isLevel3Unlock"] = false;
-                levelUnlockObject["isLevel4Unlock"] = false;
-                //重置后保存
-                file.write(doc.toJson());
-            }
-            else
-            {
-                qDebug() << "Failed to load level unlock data from" << filename;
-            }
+            this->hide();//隐藏主菜单
+            achieveWindow->show();//显示成就页面
         });
     });
+
+
+    //监听成就界面中的返回信号
+    connect(achieveWindow,&AchieveWindow::BackSignal,[=]
+    {
+        achieveWindow->close();//关闭成就界面
+        this->show();//显示主菜单
+    });
+
 }
 
 MainMenu::~MainMenu()

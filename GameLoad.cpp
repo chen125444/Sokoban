@@ -6,7 +6,7 @@ GameLoad::GameLoad(int Index)
     levelIndex=Index;
     //计时器
     timer=new QTimer;
-    stepTimer=new QTimer;
+    updateTimer=new QTimer;
 
     //创建地图对象 加载数据
     MapData * mapdata=new MapData;
@@ -19,7 +19,8 @@ GameLoad::GameLoad(int Index)
         }
         gameMap.push_back(vec);
     }
-    stepRemain=mapdata->stepData[levelIndex];//加载关卡可用步数
+    totalStep=mapdata->stepData[levelIndex];//加载关卡可用步数
+    stepRemain=totalStep;
 
     //记录当前人的位置 计算箱子总数
     for(int i=0; i<MAP_WIDTH; i++)
@@ -122,6 +123,7 @@ void GameLoad::KeyPress(QKeyEvent *event)
 {
     //开始游戏 计时开始
     isPress=true;
+    isTimerStop=false;
     pressConut++;
     //记录人位置
     x_0=man_x;
@@ -242,13 +244,16 @@ void GameLoad::Restart()
             }
         }
     }
-    //还原地块状态 计时器状态 结束、胜利状态 存放地图数据的栈
+    //还原地块状态 计时器状态 步数 结束、胜利状态 存放地图数据的栈
     oStatus=MAP_WAY;
 
     isPress=false;
     pressConut=0;
     timeCount=0;
+    isTimerStop=false;
     timer->stop();
+
+    stepRemain=totalStep;
 
     isOver=false;
     isSucceed=false;

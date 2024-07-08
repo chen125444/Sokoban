@@ -27,7 +27,7 @@ LevelWindow::LevelWindow(QWidget *parent)
     this->setWindowIcon(QIcon(":/myimages/images/box.png"));
 
 //    //加载历史记录
-//    loadLevelUnlockData(isLevel2Unlock, isLevel3Unlock, isLevel4Unlock, "GameDataRecord.json");
+//    LoadLevelUnlockData(isLevel2Unlock, isLevel3Unlock, isLevel4Unlock, "GameDataRecord.json");
     //创建返回按钮
     MyPushButton * backBtn = new MyPushButton(":/myimages/images/BACK.png",":/myimages/images/backBtn.png");
     backBtn->setParent(this);
@@ -112,7 +112,7 @@ LevelWindow::LevelWindow(QWidget *parent)
             gameScene->close();//关闭游戏界面
             this->show();//显示选关界面
             //保存数据
-            saveLevelUnlockData(isLevel2Unlock,isLevel3Unlock,isLevel4Unlock,"GameDataRecord.json");
+            SaveLevelUnlockData(isLevel2Unlock,isLevel3Unlock,isLevel4Unlock,"GameDataRecord.json");
         });
     });
     connect(level2,&MyPushButton::clicked,[=]
@@ -130,7 +130,7 @@ LevelWindow::LevelWindow(QWidget *parent)
             gameScene->close();//关闭游戏界面
             this->show();//显示选关界面
             //保存数据
-            saveLevelUnlockData(isLevel2Unlock,isLevel3Unlock,isLevel4Unlock,"GameDataRecord.json");
+            SaveLevelUnlockData(isLevel2Unlock,isLevel3Unlock,isLevel4Unlock,"GameDataRecord.json");
         });
     });
     connect(level3,&MyPushButton::clicked,[=]
@@ -148,7 +148,7 @@ LevelWindow::LevelWindow(QWidget *parent)
             gameScene->close();//关闭游戏界面
             this->show();//显示选关界面
             //保存数据
-            saveLevelUnlockData(isLevel2Unlock,isLevel3Unlock,isLevel4Unlock,"GameDataRecord.json");
+            SaveLevelUnlockData(isLevel2Unlock,isLevel3Unlock,isLevel4Unlock,"GameDataRecord.json");
         });
     });
     connect(level4,&MyPushButton::clicked,[=]
@@ -164,13 +164,13 @@ LevelWindow::LevelWindow(QWidget *parent)
             gameScene->close();//关闭游戏界面
             this->show();//显示选关界面
             //保存数据
-            saveLevelUnlockData(isLevel2Unlock,isLevel3Unlock,isLevel4Unlock,"GameDataRecord.json");
+            SaveLevelUnlockData(isLevel2Unlock,isLevel3Unlock,isLevel4Unlock,"GameDataRecord.json");
         });
     });
 }
 
 //保存
-void LevelWindow::saveLevelUnlockData(bool isLevel2Unlock, bool isLevel3Unlock, bool isLevel4Unlock, const QString& filename)
+void LevelWindow::SaveLevelUnlockData(bool isLevel2Unlock, bool isLevel3Unlock, bool isLevel4Unlock, const QString& filename)
 {
     QJsonObject levelUnlockObject;
     levelUnlockObject["isLevel2Unlock"] = isLevel2Unlock;
@@ -193,7 +193,7 @@ void LevelWindow::saveLevelUnlockData(bool isLevel2Unlock, bool isLevel3Unlock, 
 }
 
 //加载
-void LevelWindow::loadLevelUnlockData(bool& isLevel2Unlock, bool& isLevel3Unlock, bool& isLevel4Unlock, const QString& filename)
+void LevelWindow::LoadLevelUnlockData(bool& isLevel2Unlock, bool& isLevel3Unlock, bool& isLevel4Unlock, const QString& filename)
 {
     QFile file(filename);
     if (file.open(QIODevice::ReadOnly))

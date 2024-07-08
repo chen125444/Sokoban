@@ -27,10 +27,13 @@ void GameScene::paintEvent(QPaintEvent *)
         painter->begin(this);
         painter->setPen("#333333");
         painter->setFont(QFont("幼圆", 30, QFont::Bold));
-        painter->drawText(270,500,"第"+QString::number((leverIndex+1)>=4?4:(leverIndex+1))+"关已解锁");
+        painter->drawText(270,500,"第"+QString::number((levelIndex+1)>=4?4:(levelIndex+1))+"关已解锁");
         painter->drawText(312,575,"用时"+gameLoad->TimeLoad());
-        painter->drawText(312,650,"用了"+QString::number(totalStep-gameLoad->stepRemain)+"步！");
+        painter->drawText(312,650,"用了"+QString::number(gameLoad->totalStep-gameLoad->stepRemain)+"步！");
         painter->end();
+
+        //保存数据
+        SaveWinData();
     }
     //游戏结束但未获胜
     else if(gameLoad->GameOver()&&!gameLoad->isSucceed)
@@ -63,16 +66,16 @@ void GameScene::keyPressEvent(QKeyEvent *event)
     //确保计时器只开始一次
     if(gameLoad->isPress && gameLoad->pressConut==1)
     {
-        //间隔1秒
+        //开始计时
         gameLoad->timer->start(1000);
-        gameLoad->stepTimer->start(0);
+        gameLoad->updateTimer->start(0);
     }
 }
 
 GameScene::GameScene(int Index)
 {
     //记录关卡数
-    leverIndex=Index;
+    levelIndex=Index;
 
     //设置界面尺寸
     this->setFixedSize(900,990);
@@ -92,7 +95,7 @@ GameScene::GameScene(int Index)
     gameLoad = new GameLoad(Index);
 
     //创建返回按钮
-    MyPushButton * returnBtn=new MyPushButton(":/myimages/images/return.png");
+    MyPushButton * returnBtn=new MyPushButton(":/myimages/images/return.png",":/myimages/images/returnBtn.png");
     returnBtn->setParent(this);
     returnBtn->move(0,0);
     //发出返回信号 待选关界面接收
@@ -124,27 +127,27 @@ GameScene::GameScene(int Index)
         timeLabel->setText(gameLoad->TimeLoad());
     });
 
-
     //剩余步数模块
     QLabel * stepIconLabel=new QLabel;
     img.load(":/myimages/images/step.png");
     stepIconLabel->setParent(this);
     stepIconLabel->setPixmap(QPixmap::fromImage(img));
     stepIconLabel->setGeometry(405,0,90,90);
-    //记录最大可用步数
-    totalStep=gameLoad->stepRemain;
     //显示步数标签
     QLabel * stepLabel=new QLabel;
     stepLabel->setParent(this);
     stepLabel->setGeometry(495,0,225,90);
-    stepLabel->setText(QString::number(gameLoad->stepRemain)+"/"+QString::number(totalStep));
+    stepLabel->setText(QString::number(gameLoad->stepRemain)+"/"+QString::number(gameLoad->totalStep));
     stepLabel->setAlignment(Qt::AlignCenter);
     stepLabel->setStyleSheet("color: #333333;font-size: 60px;font-weight: bold;font-family: Arial;");
-    //接收gameLoad中stepTimer计时器的timeout信号
-    connect(gameLoad->stepTimer, &QTimer::timeout, [=]
+    //接收gameLoad中updateTimer计时器的timeout信号 间隔为0 实时更新步数和秒数
+    connect(gameLoad->updateTimer, &QTimer::timeout, [=]
     {
-        stepLabel->setText(QString::number(gameLoad->stepRemain)+"/"+QString::number(totalStep));
+        stepLabel->setText(QString::number(gameLoad->stepRemain)+"/"+QString::number(gameLoad->totalStep));
+        // 更新显示秒数的标签
+        timeLabel->setText(gameLoad->TimeLoad());
     });
+
 
     //创建撤销按钮
     MyPushButton * revokeBtn=new MyPushButton(":/myimages/images/revoke.png","");
@@ -168,11 +171,30 @@ GameScene::GameScene(int Index)
     connect(restartBtn,&QPushButton::clicked,[=]
     {
         gameLoad->Restart();
-        //重置时间
-        timeLabel->setText("00:00");
-        //重置步数
-        gameLoad->stepRemain=totalStep;
     });
+}
+
+//保存数据
+void GameScene::SaveWinData()
+{
+    QJsonObject winObject;
+    winObject["time"+QString::number(levelIndex)]=gameLoad->timeCount;
+    winObject["step"+QString::number(levelIndex)]=gameLoad->totalStep-gameLoad->stepRemain;
+
+    QJsonDocument doc(winObject);
+
+    QFile file("GameDataRecord.json");
+    if(file.open(QIODevice::WriteOnly))
+    {
+        file.write(doc.toJson());
+        file.close();
+        qDebug()<<"winData saved";
+    }
+    else
+    {
+        qDebug()<<"failed";
+    }
+
 }
 
 GameScene::~GameScene()
