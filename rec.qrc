@@ -1,0 +1,41 @@
+<RCC>
+    <qresource prefix="/myimages">
+        <file>images/BACK.png</file>
+        <file>images/backBtn.png</file>
+        <file>images/EXIT.png</file>
+        <file>images/exitBtn.png</file>
+        <file>images/box.png</file>
+        <file>images/PLAY.png</file>
+        <file>images/playBtn.png</file>
+        <file>images/wall.png</file>
+        <file>images/way.png</file>
+        <file>images/background.png</file>
+        <file>images/box_fixed.png</file>
+        <file>images/destination.png</file>
+        <file>images/2.png</file>
+        <file>images/1.png</file>
+        <file>images/3.png</file>
+        <file>images/4.png</file>
+        <file>images/1_des.png</file>
+        <file>images/2_des.png</file>
+        <file>images/3_des.png</file>
+        <file>images/4_des.png</file>
+        <file>images/return.png</file>
+        <file>images/restart.png</file>
+        <file>images/revoke.png</file>
+        <file>images/time.png</file>
+        <file>images/step.png</file>
+        <file>images/win.png</file>
+        <file>images/lose.png</file>
+        <file>images/sky.png</file>
+        <file>images/level1.png</file>
+        <file>images/level2.png</file>
+        <file>images/level3.png</file>
+        <file>images/level4.png</file>
+        <file>images/achievement.png</file>
+        <file>images/aBtn.png</file>
+        <file>images/wBtn.png</file>
+        <file>images/sBtn.png</file>
+        <file>images/dBtn.png</file>
+    </qresource>
+</RCC>
