@@ -2,6 +2,7 @@
 #define CONFIG_H
 /********** 游戏相关配置数据 **********/
 #define GAME_TITLE "推箱子游戏" //窗口标题
+#define MAP_SUM 4  //地图数量
 #define MAP_WIDTH 15    //横向方块数目
 #define MAP_HEIGTHT 15  //纵向方块数目
 #define M_BLOCK_WIDTH 60  //方块宽度

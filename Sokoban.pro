@@ -1,5 +1,5 @@
 QT       += core gui
-QT       += testlib
+QT       += core gui multimedia multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -24,6 +24,7 @@ SOURCES += \
     MainMenu.cpp \
     MapData.cpp \
     MyPushButton.cpp \
+    Setting.cpp \
     main.cpp
 
 HEADERS += \
@@ -34,10 +35,12 @@ HEADERS += \
     LevelWindow.h \
     MainMenu.h \
     MapData.h \
-    MyPushButton.h
+    MyPushButton.h \
+    Setting.h
 
 FORMS += \
-    AchieveWindow.ui
+    AchieveWindow.ui \
+    setting.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -48,5 +51,7 @@ RESOURCES += \
     rec.qrc
 
 DISTFILES += \
-    GameDataRecord \
-    GameDataRecord.json
+    GameDataRecord1.json \
+    GameDataRecord2.json \
+    GameDataRecord3.json \
+    GameDataRecord4.json

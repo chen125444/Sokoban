@@ -24,7 +24,8 @@ MapData::MapData()
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     };
-    int step1=25;
+    int step1=33;
+    int bestStep1=23;
     for(int i=0; i<15; i++)
     {
         QVector<int> vec;
@@ -37,6 +38,7 @@ MapData::MapData()
 
     mData.insert(1,map);
     stepData.insert(1,step1);
+    bestStepData.insert(1,bestStep1);
     //第二关配置数据
     map.clear();//先清空
     int arr2[15][15]=
@@ -57,7 +59,8 @@ MapData::MapData()
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     };
-    int step2=100;
+    int step2=108;
+    int bestStep2=98;
     for(int i=0; i<15; i++)
     {
         QVector<int> vec;
@@ -69,6 +72,7 @@ MapData::MapData()
     }
     mData.insert(2,map);  
     stepData.insert(2,step2);
+    bestStepData.insert(2,bestStep2);
 
     //第三关配置数据
     map.clear();//先清空
@@ -90,7 +94,8 @@ MapData::MapData()
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     };
-    int step3=31;
+    int step3=39;
+    int bestStep3=29;
     for(int i=0; i<15; i++)
     {
         QVector<int> vec;
@@ -102,6 +107,7 @@ MapData::MapData()
     }
     mData.insert(3,map);
     stepData.insert(3,step3);
+    bestStepData.insert(3,bestStep3);
 
     //第四关配置数据
     map.clear();//先清空
@@ -123,7 +129,8 @@ MapData::MapData()
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     };
-    int step4=60;
+    int step4=67;
+    int bestStep4=57;
     for(int i=0; i<15; i++)
     {
         QVector<int> vec;
@@ -135,4 +142,5 @@ MapData::MapData()
     }
     mData.insert(4,map);
     stepData.insert(4,step4);
+    bestStepData.insert(4,bestStep4);
 }

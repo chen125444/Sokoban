@@ -40,5 +40,30 @@
         <file>images/returnBtn.png</file>
         <file>images/delete.png</file>
         <file>images/deleteBtn.png</file>
+        <file>images/lock.png</file>
+        <file>images/unlock.png</file>
+        <file>images/achievementBtn.png</file>
+        <file>images/setting.png</file>
+        <file>images/mainback.png</file>
+        <file>images/settingBtn.png</file>
+        <file>images/tittle.png</file>
+        <file>images/man.png</file>
+        <file>images/sky.jpg</file>
+        <file>images/bgMusic.png</file>
+        <file>images/bgMute.png</file>
+        <file>images/volume.png</file>
+        <file>images/achievementicon.png</file>
+        <file>images/settingicon.png</file>
     </qresource>
+    <qresource prefix="/myaudios"/>
+    <qresource prefix="/">
+        <file>audios/push.mp3</file>
+        <file>audios/lose.mp3</file>
+        <file>audios/push_des.mp3</file>
+        <file>audios/win.mp3</file>
+        <file>audios/walk.mp3</file>
+        <file>audios/press.mp3</file>
+        <file>audios/background.mp3</file>
+    </qresource>
+    <qresource prefix="/game"/>
 </RCC>

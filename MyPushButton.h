@@ -1,6 +1,7 @@
 #ifndef MYPUSHBUTTON_H
 #define MYPUSHBUTTON_H
 #include <QPushButton>
+#include <QMediaPlayer>
 #include <QDebug>
 
 class MyPushButton:public QPushButton
@@ -8,6 +9,11 @@ class MyPushButton:public QPushButton
     Q_OBJECT;
 public:
     explicit MyPushButton(QObject *parent = nullptr);
+
+    //用来播放按键音效
+    QMediaPlayer * player;
+
+    void PressPlay();
 
     //重写构造函数 两个参数分别传入正常情况和按下情况的图片路径
     MyPushButton(QString normalImg, QString pressImg="");

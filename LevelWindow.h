@@ -4,8 +4,6 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <QDebug>
-#include <QJsonDocument>
-#include <QJsonObject>
 #include "MyPushButton.h"
 #include "GameScene.h"
 
@@ -33,21 +31,10 @@ public:
     //创建游戏场景
     GameScene * gameScene;
 
-    //关卡按钮
-    MyPushButton * level1;
-    MyPushButton * level2;
-    MyPushButton * level3;
-    MyPushButton * level4;
+    MyPushButton * levelBtn;
 
-    //判断各关卡是否解锁 默认为未解锁
-    bool isLevel2Unlock=false;
-    bool isLevel3Unlock=false;
-    bool isLevel4Unlock=false;
+    bool isLevelWin[MAP_SUM]={false};
 
-    //保存游戏记录
-    void SaveLevelUnlockData(bool isLevel2Unlock, bool isLevel3Unlock, bool isLevel4Unlock, const QString& filename);
-    //加载记录
-    void LoadLevelUnlockData(bool& isLevel2Unlock, bool& isLevel3Unlock, bool& isLevel4Unlock, const QString& filename);
 signals:
     //返回信号
     void BackSignal();

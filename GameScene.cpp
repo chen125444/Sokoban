@@ -17,31 +17,44 @@ void GameScene::paintEvent(QPaintEvent *)
 
     if(gameLoad->GameOver()&&gameLoad->isSucceed)
     {
+        if(playCount==0)
+        {
+            //胜利音效
+            player->setMedia(QUrl("qrc:/audios/win.mp3"));
+            player->setVolume(100);
+            player->play();
+            playCount++;
+        }
         isWin=gameLoad->isSucceed;
+        //保存胜利数据
+        SaveWinData();
         //加载胜利图片
         QPixmap winPixmap(":/myimages/images/win.png");
         mapPainter->drawPixmap(this->width()*0.5-winPixmap.width()*0.5,this->height()*0.5-winPixmap.height()*0.5-150,winPixmap);
-
         //文字显示
         QPainter * painter=new QPainter;
         painter->begin(this);
         painter->setPen("#333333");
         painter->setFont(QFont("幼圆", 30, QFont::Bold));
-        painter->drawText(270,500,"第"+QString::number((levelIndex+1)>=4?4:(levelIndex+1))+"关已解锁");
+
         painter->drawText(312,575,"用时"+gameLoad->TimeLoad());
         painter->drawText(312,650,"用了"+QString::number(gameLoad->totalStep-gameLoad->stepRemain)+"步！");
         painter->end();
-
-        //保存数据
-        SaveWinData();
     }
     //游戏结束但未获胜
     else if(gameLoad->GameOver()&&!gameLoad->isSucceed)
     {
+        if(playCount==0)
+        {
+            //失败音效
+            player->setMedia(QUrl("qrc:/audios/lose.mp3"));
+            player->setVolume(100);
+            player->play();
+            playCount++;
+        }
         //加载失败图片
         QPixmap winPixmap(":/myimages/images/lose.png");
         mapPainter->drawPixmap(this->width()*0.5-winPixmap.width()*0.5,this->height()*0.5-winPixmap.height()*0.5-150,winPixmap);
-
         //文字显示
         QPainter * painter=new QPainter;
         painter->begin(this);
@@ -74,6 +87,9 @@ void GameScene::keyPressEvent(QKeyEvent *event)
 
 GameScene::GameScene(int Index)
 {
+    //创建播放器对象
+    player=new QMediaPlayer;
+
     //记录关卡数
     levelIndex=Index;
 
@@ -97,6 +113,7 @@ GameScene::GameScene(int Index)
     //创建返回按钮
     MyPushButton * returnBtn=new MyPushButton(":/myimages/images/return.png",":/myimages/images/returnBtn.png");
     returnBtn->setParent(this);
+    returnBtn->setFocusPolicy(Qt::ClickFocus);
     returnBtn->move(0,0);
     //发出返回信号 待选关界面接收
     connect(returnBtn,&QPushButton::clicked,[=]
@@ -152,6 +169,7 @@ GameScene::GameScene(int Index)
     //创建撤销按钮
     MyPushButton * revokeBtn=new MyPushButton(":/myimages/images/revoke.png","");
     revokeBtn->setParent(this);
+    revokeBtn->setFocusPolicy(Qt::ClickFocus);
     revokeBtn->move(this->width()-returnBtn->width()*2,0);
     connect(revokeBtn,&QPushButton::clicked,[=]
     {
@@ -166,24 +184,37 @@ GameScene::GameScene(int Index)
     //创建重玩按钮
     MyPushButton * restartBtn=new MyPushButton(":/myimages/images/restart.png");
     restartBtn->setParent(this);
+    restartBtn->setFocusPolicy(Qt::ClickFocus);
     restartBtn->move(this->width()-restartBtn->width(),0);
 
     connect(restartBtn,&QPushButton::clicked,[=]
     {
         gameLoad->Restart();
+        playCount=0;
     });
 }
 
-//保存数据
+//游戏胜利后保存数据
 void GameScene::SaveWinData()
 {
     QJsonObject winObject;
-    winObject["time"+QString::number(levelIndex)]=gameLoad->timeCount;
-    winObject["step"+QString::number(levelIndex)]=gameLoad->totalStep-gameLoad->stepRemain;
+    int timeData=winObject["time"+QString::number(levelIndex)].toInt();
+    int stepData=winObject["step"+QString::number(levelIndex)].toInt();
 
+    int stepUsed=gameLoad->totalStep-gameLoad->stepRemain;
+    //记录时间 步数
+    if(timeData<gameLoad->timeCount)
+    {
+        winObject["time"+QString::number(levelIndex)]=gameLoad->timeCount;
+    }
+    if(stepData<stepUsed)
+    {
+        winObject["step"+QString::number(levelIndex)]=stepUsed;
+    }
+    //记录胜利
+    winObject["win"+QString::number(levelIndex)]=true;
     QJsonDocument doc(winObject);
-
-    QFile file("GameDataRecord.json");
+    QFile file("D:\\Qtcode\\Sokoban\\GameDataRecord"+QString::number(levelIndex)+".json");
     if(file.open(QIODevice::WriteOnly))
     {
         file.write(doc.toJson());
@@ -194,7 +225,6 @@ void GameScene::SaveWinData()
     {
         qDebug()<<"failed";
     }
-
 }
 
 GameScene::~GameScene()

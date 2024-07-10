@@ -1,7 +1,30 @@
 #include "GameLoad.h"
 
+//音频播放
+void GameLoad::PushPlay()
+{
+    player1->setMedia(QUrl("qrc:/audios/push.mp3"));
+    player1->setVolume(100);
+    player1->play();
+}
+void GameLoad::PushDesPlay()
+{
+    player2->setMedia(QUrl("qrc:/audios/push_des.mp3"));
+    player2->setVolume(100);
+    player2->play();
+}
+void GameLoad::walkPlay()
+{
+    player3->setMedia(QUrl("qrc:/audios/walk.mp3"));
+    player3->setVolume(100);
+    player3->play();
+}
 GameLoad::GameLoad(int Index)
 {
+    //创建播放器对象
+    player1=new QMediaPlayer;
+    player2=new QMediaPlayer;
+    player3=new QMediaPlayer;
     //记录当前关卡数
     levelIndex=Index;
     //计时器
@@ -20,6 +43,7 @@ GameLoad::GameLoad(int Index)
         gameMap.push_back(vec);
     }
     totalStep=mapdata->stepData[levelIndex];//加载关卡可用步数
+    perfectStep=mapdata->bestStepData[levelIndex];//加载关卡最优步数
     stepRemain=totalStep;
 
     //记录当前人的位置 计算箱子总数
@@ -358,6 +382,8 @@ void GameLoad::MapUpdate()
         LastMapStore(gameMap,manMap);
         //人移动到下一位置
         gameMap[x_1][y_1]=walkTowardsChange(MAP_WAY,keyMark);
+        //播放音效
+        walkPlay();
         //更新步数
         stepRemain--;
         //更新人的位置
@@ -385,6 +411,8 @@ void GameLoad::MapUpdate()
         LastMapStore(gameMap,manMap);
         //人移动到下一位置
         gameMap[x_1][y_1]=walkTowardsChange(MAP_DESTINATION,keyMark);
+        //播放音效
+        walkPlay();
         //更新步数
         stepRemain--;
         //更新人的位置
@@ -427,6 +455,8 @@ void GameLoad::MapUpdate()
             gameMap[x_2][y_2]=MAP_BOX;
             //人移动
             gameMap[x_1][y_1]=walkTowardsChange(MAP_WAY,keyMark);
+            //播放音效
+            PushPlay();
             //更新步数
             stepRemain--;
             //更新人的位置
@@ -454,6 +484,8 @@ void GameLoad::MapUpdate()
             LastMapStore(gameMap,manMap);
             //箱子移动至目的地
             gameMap[x_2][y_2]=MAP_BOX_FIXED;
+            //播放音效
+            PushDesPlay();
             //人移动
             gameMap[x_1][y_1]=walkTowardsChange(MAP_WAY,keyMark);
             //更新步数
@@ -495,6 +527,8 @@ void GameLoad::MapUpdate()
             gameMap[x_2][y_2]=MAP_BOX;
             //人移动
             gameMap[x_1][y_1]=walkTowardsChange(MAP_DESTINATION,keyMark);
+            //播放音效
+            PushPlay();
             //更新步数
             stepRemain--;
             //更新人的位置
@@ -523,6 +557,8 @@ void GameLoad::MapUpdate()
             gameMap[x_2][y_2]=MAP_BOX_FIXED;
             //人移动
             gameMap[x_1][y_1]=walkTowardsChange(MAP_DESTINATION,keyMark);
+            //播放音效
+            PushDesPlay();
             //更新步数
             stepRemain--;
             //更新人的位置
@@ -593,4 +629,12 @@ bool GameLoad::GameOver()
     {
         return false;
     }
+}
+GameLoad::~GameLoad()
+{
+    //释放内存
+    delete player1;
+    delete player2;
+    delete player3;
+    delete timer;
 }

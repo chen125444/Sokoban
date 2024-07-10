@@ -3,10 +3,8 @@
 
 #include <QMainWindow>
 #include <QPushButton>
-#include <QJsonDocument>
 #include <QJsonObject>
-#include <QFile>
-#include <QTest>
+#include <QJsonDocument>
 #include <QDateTime>
 #include <QLabel>
 #include <QTimer>
@@ -20,7 +18,7 @@ class GameScene : public QMainWindow
     //创建相应对象
     QPainter * mapPainter;
     GameLoad * gameLoad;
-
+    QMediaPlayer * player;
 
 public:
     explicit GameScene(int Index);
@@ -32,13 +30,14 @@ public:
     //重写键盘事件
     void keyPressEvent(QKeyEvent *event);
 
-    //游戏胜利后保存 时间 步数数据
+    //游戏胜利后保存  胜利 时间 步数数据
     void SaveWinData();
     //关卡数
     int levelIndex;
-
     //记录是否胜利
     bool isWin=false;
+    //防止重复播放
+    int playCount=0;
 
 signals:
     //返回信号

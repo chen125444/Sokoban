@@ -4,54 +4,10 @@
 //绘制游戏关卡相关信息
 void AchieveWindow::paintEvent(QPaintEvent *)
 {
-
-    QPainter * painter=new QPainter;
-    painter->begin(this);
-//    //画人物移动提示(WASD)
-//    QPixmap wBtn(":/myimages/images/wBtn.png");
-//    QPixmap aBtn(":/myimages/images/aBtn.png");
-//    QPixmap sBtn(":/myimages/images/sBtn.png");
-//    QPixmap dBtn(":/myimages/images/dBtn.png");
-//    painter->drawPixmap(60,95,wBtn);
-//    painter->drawPixmap(0,150,aBtn);
-//    painter->drawPixmap(60,150,sBtn);
-//    painter->drawPixmap(120,150,dBtn);
-
-//    if(gameLoad->GameOver()&&gameLoad->isSucceed)
-//    {
-//        isWin=gameLoad->isSucceed;
-//        //加载胜利图片
-//        QPixmap winPixmap(":/myimages/images/win.png");
-//        painter->drawPixmap(this->width()*0.5-winPixmap.width()*0.5,this->height()*0.5-winPixmap.height()*0.5-150,winPixmap);
-
-//        //文字显示
-//        QPainter * painter=new QPainter;
-//        painter->begin(this);
-//        painter->setPen("#333333");
-//        painter->setFont(QFont("幼圆", 30, QFont::Bold));
-//        painter->drawText(270,500,"第"+QString::number((levelIndex+1)>=4?4:(levelIndex+1))+"关已解锁");
-//        painter->drawText(312,575,"用时"+gameLoad->TimeLoad());
-//        painter->drawText(312,650,"用了"+QString::number(gameLoad->totalStep-gameLoad->stepRemain)+"步！");
-//        painter->end();
-
-//        //保存数据
-//        SaveWinData();
-//    }
-//    //游戏结束但未获胜
-//    else if(gameLoad->GameOver()&&!gameLoad->isSucceed)
-//    {
-//        //加载失败图片
-//        QPixmap winPixmap(":/myimages/images/lose.png");
-//        painter->drawPixmap(this->width()*0.5-winPixmap.width()*0.5,this->height()*0.5-winPixmap.height()*0.5-150,winPixmap);
-
-//        //文字显示
-//        QPainter * painter=new QPainter;
-//        painter->begin(this);
-//        painter->setPen("#333333");
-//        painter->setFont(QFont("幼圆", 30, QFont::Bold));
-//        painter->drawText(147,500,"请点击右上角按钮重试！");
-//        painter->end();
-//    }
+    QPainter * painter=new QPainter(this);
+    //加载胜利数据
+    LoadWinData();
+    DrawStatus(painter);
     painter->end();
     update();
 }
@@ -61,6 +17,9 @@ AchieveWindow::AchieveWindow(QWidget *parent) :
     ui(new Ui::AchieveWindow)
 {
     ui->setupUi(this);
+
+    //加载相关数据
+    LoadWinData();
     //创建返回按钮
     MyPushButton * returnBtn=new MyPushButton(":/myimages/images/return.png",":/myimages/images/returnBtn.png");
     returnBtn->setParent(this);
@@ -70,7 +29,6 @@ AchieveWindow::AchieveWindow(QWidget *parent) :
     {
         emit BackSignal();
     });
-
     //创建删除按钮
     MyPushButton * deleteBtn=new MyPushButton(":/myimages/images/delete.png",":/myimages/images/deleteBtn.png");
     deleteBtn->setParent(this);
@@ -80,31 +38,109 @@ AchieveWindow::AchieveWindow(QWidget *parent) :
         //重置数据
         DeleteData();
     });
+
+    //存入map 便于绘图
+    stepMap["step1"]=this->ui->step1;
+    stepMap["step2"]=this->ui->step2;
+    stepMap["step3"]=this->ui->step3;
+    stepMap["step4"]=this->ui->step4;
+
+    timeMap["time1"]=this->ui->time1;
+    timeMap["time2"]=this->ui->time2;
+    timeMap["time3"]=this->ui->time3;
+    timeMap["time4"]=this->ui->time4;
+
+    //先把标签设为不可见
+    for (int i=1;i<=MAP_SUM;i++)
+    {
+        stepMap["step"+QString::number(i)]->setVisible(false);
+        timeMap["time"+QString::number(i)]->setVisible(false);
+    }
+
 }
+
+//绘制相应数据
+void AchieveWindow::DrawStatus(QPainter *painter)
+{
+    for(int i=1;i<=MAP_SUM;i++)
+    {
+
+        //加载是否通关图片
+        if(isLevelWin[i-1])
+        {
+            //已解锁
+            QPixmap winPixmap(":/myimages/images/unlock.png");
+            painter->drawPixmap(160,135+180*(i-1),winPixmap);
+            //设为可见
+            stepMap["step"+QString::number(i)]->setVisible(true);
+            timeMap["time"+QString::number(i)]->setVisible(true);
+            //文字显示
+            painter->setPen("#333333");
+            painter->setFont(QFont("幼圆", 26, QFont::Bold));
+            painter->drawText(410,200+180*(i-1),TimeLoad(winData[i][0]));
+            painter->drawText(700,200+180*(i-1),QString::number(winData[i][1]));
+        }
+        else
+        {
+            //未解锁
+            QPixmap winPixmap(":/myimages/images/lock.png");
+            painter->drawPixmap(160,135+180*(i-1),winPixmap);
+            //设为不可见
+            stepMap["step"+QString::number(i)]->setVisible(false);
+            timeMap["time"+QString::number(i)]->setVisible(false);
+        }
+
+    }
+}
+
+//用来格式化时间
+QString AchieveWindow::TimeLoad(int timeCount)
+{
+    int minutes = timeCount / 60;
+    int seconds = timeCount % 60;
+    QString min,sec;
+    //如果分钟小于10，在前面添加一个0
+    if (minutes < 10)
+    {
+        min = "0" + QString::number(minutes);
+    }
+    else
+    {
+        min = QString::number(minutes);
+    }
+    //如果秒数小于10，在前面添加一个0
+    if (seconds < 10)
+    {
+        //转成字符串
+        sec = "0" + QString::number(seconds);
+    }
+    else
+    {
+        sec = QString::number(seconds);
+    }
+    return min + ":" + sec;
+}
+
 
 //加载数据
 void AchieveWindow::LoadWinData()
 {
-    QFile file("GameDataRecord.json");
-    if(file.open(QIODevice::ReadOnly))
+    for(int i=1;i<=MAP_SUM;i++)
     {
-        QByteArray jsonData = file.readAll();
-        QJsonDocument doc = QJsonDocument::fromJson(jsonData);
-        QJsonObject gameObject=doc.object();
-
-        //是否解锁
-        this->isLevel2Unlock=gameObject["isLevel2Unlock"].toBool();
-        this->isLevel3Unlock=gameObject["isLevel3Unlock"].toBool();
-        this->isLevel4Unlock=gameObject["isLevel4Unlock"].toBool();
-
-        for(int i=0;i<4;i++)
+        QFile file("D:\\Qtcode\\Sokoban\\GameDataRecord"+QString::number(i)+".json");
+        if(file.open(QIODevice::ReadOnly))
         {
-            QVector<int> vec;
+            QByteArray jsonData = file.readAll();
+            QJsonDocument doc = QJsonDocument::fromJson(jsonData);
+            QJsonObject gameObject=doc.object();
+            //存是否胜利
+            isLevelWin[i-1]=gameObject["win"+QString::number(i)].toBool();
             //存时间和步数
+            QVector<int> vec;
             vec.push_back(gameObject["time"+QString::number(i)].toInt());
             vec.push_back(gameObject["step"+QString::number(i)].toInt());
             //存入图中 一一对应
-            winData.insert(i+1,vec);
+            winData.insert(i,vec);
         }
     }
 }
@@ -112,31 +148,23 @@ void AchieveWindow::LoadWinData()
 
 void AchieveWindow::DeleteData()
 {
-    //重置存储的记录
-    QFile file("GameDataRecord.json");
-    if (file.open(QIODevice::ReadWrite))
+    for(int i=1;i<=MAP_SUM;i++)
     {
-        QByteArray jsonData = file.readAll();
-        QJsonDocument doc = QJsonDocument::fromJson(jsonData);
-        QJsonObject gameObject = doc.object();
-
-        gameObject["isLevel2Unlock"] = false;
-        gameObject["isLevel3Unlock"] = false;
-        gameObject["isLevel4Unlock"] = false;
-
-        for(int i=0;i<4;i++)
+        //重置存储的记录
+        QFile file("D:\\Qtcode\\Sokoban\\GameDataRecord"+QString::number(i)+".json");
+        if (file.open(QIODevice::ReadWrite))
         {
+            QByteArray jsonData = file.readAll();
+            QJsonDocument doc = QJsonDocument::fromJson(jsonData);
+            QJsonObject gameObject = doc.object();
+            gameObject["win"+QString::number(i)]=false;
             QVector<int> vec;
             gameObject["time"+QString::number(i)]=10000;
             gameObject["step"+QString::number(i)]=10000;
-            winData.insert(i+1,vec);
+            winData.insert(i,vec);
+            //重置后保存
+            file.write(doc.toJson());
         }
-        //重置后保存
-        file.write(doc.toJson());
-    }
-    else
-    {
-        qDebug() << "Failed";
     }
 }
 

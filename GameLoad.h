@@ -6,12 +6,22 @@
 #include <QVector>
 #include <QTimer>
 #include <QKeyEvent>
+#include <QMediaPlayer>
 #include "MapData.h"
 
 class GameLoad
 {
 public:
     GameLoad(int Index);
+    ~GameLoad();
+    //音频播放
+    QMediaPlayer * player1;
+    QMediaPlayer * player2;
+    QMediaPlayer * player3;
+
+    void PushPlay();//推动箱子的音效
+    void PushDesPlay();//箱子到目的地
+    void walkPlay();//行走音效
 
     //地图绘制
     void MapDraw(QPainter * painter);
@@ -39,7 +49,7 @@ public:
 
     //创建计时器
     QTimer * timer;//用于更新时间
-    QTimer * updateTimer;//用于更新步数 时间
+    QTimer * updateTimer;//更新步数和秒数
 
     int timeCount=0;//记录已过秒数
     bool isTimerStop=false;//记录是否暂停
@@ -57,9 +67,10 @@ public:
 
     //当前关卡数
     int levelIndex;
-    //关卡可用步数
+    //关卡可用步数 最优步数
     int totalStep;
     int stepRemain;
+    int perfectStep;
 
     //人的坐标
     int man_x;

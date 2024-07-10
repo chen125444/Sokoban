@@ -1,8 +1,14 @@
 #include "MyPushButton.h"
 
+void MyPushButton::PressPlay()
+{
+    player->setMedia(QUrl("qrc:/audios/press.mp3"));
+    player->setVolume(100);
+    player->play();
+}
 MyPushButton::MyPushButton(QString normalImg, QString pressImg)
 {
-
+    player=new QMediaPlayer;
     //正常状态下的图片路径
     this->normalPath = normalImg;
     //按下后的图片路径(较正常大一点 以实现动画效果)
@@ -31,6 +37,8 @@ MyPushButton::MyPushButton(QString normalImg, QString pressImg)
 //便于实现动画效果
 void MyPushButton::mousePressEvent(QMouseEvent *event)
 {
+    //按下音效
+    PressPlay();
     //按下路径不为空 切图
     if(this->pressPath!="")
     {
