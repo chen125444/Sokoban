@@ -27,7 +27,7 @@ public:
 
     //计时器 用于更新解锁情况
     QTimer * timer;
-
+    QMap<int,MyPushButton *> btnMap;
     //创建游戏场景
     GameScene * gameScene;
 

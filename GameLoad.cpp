@@ -141,6 +141,64 @@ void GameLoad::MapDraw(QPainter * painter)
     }
 }
 
+//根据使用步数来绘制相应星星
+int GameLoad::StarDraw(QPainter *painter)
+{
+    //获取使用步数
+    int stepUsed=totalStep-stepRemain;
+    //计算差值
+    int mStep=stepUsed-perfectStep;
+    //Perfect 三颗星
+    if(mStep==0)
+    {
+        painter->drawText(252,510,"Perfect");
+        for(int i=0;i<3;i++)
+        {
+            QPixmap pix;
+            pix.load(":/myimages/images/star.png");
+            painter->drawPixmap(475+75*i,455,pix);
+        }
+        return 3;
+    }
+    //Good 两颗星
+    else if(mStep>0&&mStep<5)
+    {
+        painter->drawText(282,510,"Good");
+        for(int i=0;i<3;i++)
+        {
+            QPixmap pix;
+            if(i<2)
+            {
+                pix.load(":/myimages/images/star.png");
+            }
+            else
+            {
+                pix.load(":/myimages/images/darkstar.png");
+            }
+            painter->drawPixmap(470+75*i,455,pix);
+        }
+        return 2;
+    }
+    //Normal 一颗星
+    else
+    {
+        painter->drawText(257,510,"Normal");
+        for(int i=0;i<3;i++)
+        {
+            QPixmap pix;
+            if(i<1)
+            {
+                pix.load(":/myimages/images/star.png");
+            }
+            else
+            {
+                pix.load(":/myimages/images/darkstar.png");
+            }
+            painter->drawPixmap(475+75*i,455,pix);
+        }
+        return 1;
+    }
+}
 
 //键盘响应
 void GameLoad::KeyPress(QKeyEvent *event)

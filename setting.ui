@@ -17,6 +17,9 @@
    <iconset resource="rec.qrc">
     <normaloff>:/myimages/images/settingicon.png</normaloff>:/myimages/images/settingicon.png</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QRadioButton" name="play">
     <property name="geometry">

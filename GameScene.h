@@ -30,6 +30,9 @@ public:
     //重写键盘事件
     void keyPressEvent(QKeyEvent *event);
 
+    //加载数据
+    void LoadData();
+    int timeData,stepData,starData;
     //游戏胜利后保存  胜利 时间 步数数据
     void SaveWinData();
     //关卡数
@@ -38,6 +41,9 @@ public:
     bool isWin=false;
     //防止重复播放
     int playCount=0;
+
+    //记录星星数
+    int starCount=0;
 
 signals:
     //返回信号

@@ -27,7 +27,6 @@
         <file>images/step.png</file>
         <file>images/win.png</file>
         <file>images/lose.png</file>
-        <file>images/sky.png</file>
         <file>images/level1.png</file>
         <file>images/level2.png</file>
         <file>images/level3.png</file>
@@ -40,8 +39,6 @@
         <file>images/returnBtn.png</file>
         <file>images/delete.png</file>
         <file>images/deleteBtn.png</file>
-        <file>images/lock.png</file>
-        <file>images/unlock.png</file>
         <file>images/achievementBtn.png</file>
         <file>images/setting.png</file>
         <file>images/mainback.png</file>
@@ -54,6 +51,13 @@
         <file>images/volume.png</file>
         <file>images/achievementicon.png</file>
         <file>images/settingicon.png</file>
+        <file>images/darkstar.png</file>
+        <file>images/star.png</file>
+        <file>images/rBtn.png</file>
+        <file>images/tBtn.png</file>
+        <file>images/escBtn.png</file>
+        <file>images/unlock.png</file>
+        <file>images/lock.png</file>
     </qresource>
     <qresource prefix="/myaudios"/>
     <qresource prefix="/">

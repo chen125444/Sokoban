@@ -26,6 +26,9 @@ public:
     //地图绘制
     void MapDraw(QPainter * painter);
 
+    //评级绘制
+    int StarDraw(QPainter * painter);
+
     //地图更新
     void MapUpdate();
 

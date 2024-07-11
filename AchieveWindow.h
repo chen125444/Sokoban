@@ -37,6 +37,8 @@ public:
     //绘制相应数据
     void DrawStatus(QPainter * painter);
 
+    void StarDraw(QPainter * painter,int starCount,int levelIndex);
+
     //用来格式化时间
     QString TimeLoad(int timeCount);
 

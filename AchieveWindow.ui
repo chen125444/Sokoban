@@ -20,6 +20,9 @@
   <property name="layoutDirection">
    <enum>Qt::LeftToRight</enum>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="delete_2">
     <property name="geometry">
@@ -269,10 +272,10 @@
    <widget class="Line" name="line_5">
     <property name="geometry">
      <rect>
-      <x>710</x>
+      <x>706</x>
       <y>0</y>
       <width>16</width>
-      <height>91</height>
+      <height>90</height>
      </rect>
     </property>
     <property name="orientation">
